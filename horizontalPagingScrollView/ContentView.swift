@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomItem: Identifiable, Equatable {
-    var id: UUID = UUID()
+    let id = UUID()
     let color: Color
 }
 
@@ -24,9 +24,7 @@ struct ContentView: View {
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 0) {
-                        ForEach(colors) { item in
-                            let index = colors.firstIndex(where: { $0 == item }) ?? 0
-                            
+                        ForEach(Array(zip(colors.indices, colors)), id: \.0) { index, item in
                             Text("Item \(index)")
                                 .foregroundColor(.white)
                                 .font(.largeTitle)
@@ -35,8 +33,8 @@ struct ContentView: View {
                                 .id(item.id)
                         }
                     }
-                }.onAppear{
-                    scrollView.scrollTo(colors[2].id)
+                }.onAppear {
+                    scrollView.scrollTo(colors[colors.count-1].id)
                 }
             }
         }
